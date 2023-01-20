@@ -7,12 +7,14 @@ import { Api } from "./rest";
 import { MsgCreateApirequest } from "./types/apitracking/tx";
 import { MsgUpdateApirequest } from "./types/apitracking/tx";
 import { MsgDeleteApirequest } from "./types/apitracking/tx";
+import { MsgApiRequest } from "./types/apitracking/tx";
 
 
 const types = [
   ["/apitracking.apitracking.MsgCreateApirequest", MsgCreateApirequest],
   ["/apitracking.apitracking.MsgUpdateApirequest", MsgUpdateApirequest],
   ["/apitracking.apitracking.MsgDeleteApirequest", MsgDeleteApirequest],
+  ["/apitracking.apitracking.MsgApiRequest", MsgApiRequest],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -48,6 +50,7 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
     msgCreateApirequest: (data: MsgCreateApirequest): EncodeObject => ({ typeUrl: "/apitracking.apitracking.MsgCreateApirequest", value: MsgCreateApirequest.fromPartial( data ) }),
     msgUpdateApirequest: (data: MsgUpdateApirequest): EncodeObject => ({ typeUrl: "/apitracking.apitracking.MsgUpdateApirequest", value: MsgUpdateApirequest.fromPartial( data ) }),
     msgDeleteApirequest: (data: MsgDeleteApirequest): EncodeObject => ({ typeUrl: "/apitracking.apitracking.MsgDeleteApirequest", value: MsgDeleteApirequest.fromPartial( data ) }),
+    msgApiRequest: (data: MsgApiRequest): EncodeObject => ({ typeUrl: "/apitracking.apitracking.MsgApiRequest", value: MsgApiRequest.fromPartial( data ) }),
     
   };
 };

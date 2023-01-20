@@ -30741,6 +30741,8 @@ definitions:
         type: string
       creator:
         type: string
+  apitracking.apitracking.MsgApiRequestResponse:
+    type: object
   apitracking.apitracking.MsgCreateApirequestResponse:
     type: object
     properties:

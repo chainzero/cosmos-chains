@@ -32,6 +32,15 @@ export interface MsgDeleteApirequest {
 
 export interface MsgDeleteApirequestResponse {}
 
+export interface MsgApiRequest {
+  creator: string;
+  requestor: string;
+  uri: string;
+  datetime: string;
+}
+
+export interface MsgApiRequestResponse {}
+
 const baseMsgCreateApirequest: object = {
   creator: "",
   requestor: "",
@@ -526,6 +535,155 @@ export const MsgDeleteApirequestResponse = {
   },
 };
 
+const baseMsgApiRequest: object = {
+  creator: "",
+  requestor: "",
+  uri: "",
+  datetime: "",
+};
+
+export const MsgApiRequest = {
+  encode(message: MsgApiRequest, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.requestor !== "") {
+      writer.uint32(18).string(message.requestor);
+    }
+    if (message.uri !== "") {
+      writer.uint32(26).string(message.uri);
+    }
+    if (message.datetime !== "") {
+      writer.uint32(34).string(message.datetime);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgApiRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgApiRequest } as MsgApiRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.requestor = reader.string();
+          break;
+        case 3:
+          message.uri = reader.string();
+          break;
+        case 4:
+          message.datetime = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgApiRequest {
+    const message = { ...baseMsgApiRequest } as MsgApiRequest;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.requestor !== undefined && object.requestor !== null) {
+      message.requestor = String(object.requestor);
+    } else {
+      message.requestor = "";
+    }
+    if (object.uri !== undefined && object.uri !== null) {
+      message.uri = String(object.uri);
+    } else {
+      message.uri = "";
+    }
+    if (object.datetime !== undefined && object.datetime !== null) {
+      message.datetime = String(object.datetime);
+    } else {
+      message.datetime = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgApiRequest): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.requestor !== undefined && (obj.requestor = message.requestor);
+    message.uri !== undefined && (obj.uri = message.uri);
+    message.datetime !== undefined && (obj.datetime = message.datetime);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgApiRequest>): MsgApiRequest {
+    const message = { ...baseMsgApiRequest } as MsgApiRequest;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.requestor !== undefined && object.requestor !== null) {
+      message.requestor = object.requestor;
+    } else {
+      message.requestor = "";
+    }
+    if (object.uri !== undefined && object.uri !== null) {
+      message.uri = object.uri;
+    } else {
+      message.uri = "";
+    }
+    if (object.datetime !== undefined && object.datetime !== null) {
+      message.datetime = object.datetime;
+    } else {
+      message.datetime = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgApiRequestResponse: object = {};
+
+export const MsgApiRequestResponse = {
+  encode(_: MsgApiRequestResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgApiRequestResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgApiRequestResponse } as MsgApiRequestResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgApiRequestResponse {
+    const message = { ...baseMsgApiRequestResponse } as MsgApiRequestResponse;
+    return message;
+  },
+
+  toJSON(_: MsgApiRequestResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgApiRequestResponse>): MsgApiRequestResponse {
+    const message = { ...baseMsgApiRequestResponse } as MsgApiRequestResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateApirequest(
@@ -534,10 +692,11 @@ export interface Msg {
   UpdateApirequest(
     request: MsgUpdateApirequest
   ): Promise<MsgUpdateApirequestResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   DeleteApirequest(
     request: MsgDeleteApirequest
   ): Promise<MsgDeleteApirequestResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  ApiRequest(request: MsgApiRequest): Promise<MsgApiRequestResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -584,6 +743,18 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgDeleteApirequestResponse.decode(new Reader(data))
+    );
+  }
+
+  ApiRequest(request: MsgApiRequest): Promise<MsgApiRequestResponse> {
+    const data = MsgApiRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "apitracking.apitracking.Msg",
+      "ApiRequest",
+      data
+    );
+    return promise.then((data) =>
+      MsgApiRequestResponse.decode(new Reader(data))
     );
   }
 }

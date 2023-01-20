@@ -11,6 +11,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateApirequest{}, "apitracking/CreateApirequest", nil)
 	cdc.RegisterConcrete(&MsgUpdateApirequest{}, "apitracking/UpdateApirequest", nil)
 	cdc.RegisterConcrete(&MsgDeleteApirequest{}, "apitracking/DeleteApirequest", nil)
+	cdc.RegisterConcrete(&MsgApiRequest{}, "apitracking/ApiRequest", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -19,6 +20,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgCreateApirequest{},
 		&MsgUpdateApirequest{},
 		&MsgDeleteApirequest{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgApiRequest{},
 	)
 	// this line is used by starport scaffolding # 3
 

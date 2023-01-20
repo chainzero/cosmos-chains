@@ -36,6 +36,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgDeleteApirequest int = 100
 
+	opWeightMsgApiRequest = "op_weight_msg_api_request"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgApiRequest int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -112,6 +116,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgDeleteApirequest,
 		apitrackingsimulation.SimulateMsgDeleteApirequest(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgApiRequest int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgApiRequest, &weightMsgApiRequest, nil,
+		func(_ *rand.Rand) {
+			weightMsgApiRequest = defaultWeightMsgApiRequest
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgApiRequest,
+		apitrackingsimulation.SimulateMsgApiRequest(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

@@ -11,6 +11,7 @@ service Msg {
     rpc CreateApirequest(MsgCreateApirequest) returns (MsgCreateApirequestResponse);
   rpc UpdateApirequest(MsgUpdateApirequest) returns (MsgUpdateApirequestResponse);
   rpc DeleteApirequest(MsgDeleteApirequest) returns (MsgDeleteApirequestResponse);
+  rpc ApiRequest(MsgApiRequest) returns (MsgApiRequestResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -41,5 +42,15 @@ message MsgDeleteApirequest {
 }
 
 message MsgDeleteApirequestResponse {}
+
+message MsgApiRequest {
+  string creator = 1;
+  string requestor = 2;
+  string uri = 3;
+  string datetime = 4;
+}
+
+message MsgApiRequestResponse {
+}
 
 // this line is used by starport scaffolding # proto/tx/message

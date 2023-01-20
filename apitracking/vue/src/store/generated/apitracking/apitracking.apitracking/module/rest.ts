@@ -18,6 +18,8 @@ export interface ApitrackingApirequest {
   creator?: string;
 }
 
+export type ApitrackingMsgApiRequestResponse = object;
+
 export interface ApitrackingMsgCreateApirequestResponse {
   /** @format uint64 */
   id?: string;

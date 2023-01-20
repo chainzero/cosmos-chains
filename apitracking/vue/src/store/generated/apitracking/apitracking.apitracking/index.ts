@@ -244,6 +244,21 @@ export default {
 				}
 			}
 		},
+		async sendMsgApiRequest({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgApiRequest(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgApiRequest:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgApiRequest:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
 		
 		async MsgCreateApirequest({ rootGetters }, { value }) {
 			try {
@@ -281,6 +296,19 @@ export default {
 					throw new Error('TxClient:MsgDeleteApirequest:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgDeleteApirequest:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgApiRequest({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgApiRequest(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgApiRequest:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgApiRequest:Create Could not create message: ' + e.message)
 				}
 			}
 		},
