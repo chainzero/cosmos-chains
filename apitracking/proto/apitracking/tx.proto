@@ -1,0 +1,45 @@
+syntax = "proto3";
+package apitracking.apitracking;
+
+import "apitracking/apirequest.proto";
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "apitracking/x/apitracking/types";
+
+// Msg defines the Msg service.
+service Msg {
+    rpc CreateApirequest(MsgCreateApirequest) returns (MsgCreateApirequestResponse);
+  rpc UpdateApirequest(MsgUpdateApirequest) returns (MsgUpdateApirequestResponse);
+  rpc DeleteApirequest(MsgDeleteApirequest) returns (MsgDeleteApirequestResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreateApirequest {
+  string creator = 1;
+  string requestor = 2;
+  string uri = 3;
+  string datetime = 4;
+}
+
+message MsgCreateApirequestResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateApirequest {
+  string creator = 1;
+  uint64 id = 2;
+  string requestor = 3;
+  string uri = 4;
+  string datetime = 5;
+}
+
+message MsgUpdateApirequestResponse {}
+
+message MsgDeleteApirequest {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgDeleteApirequestResponse {}
+
+// this line is used by starport scaffolding # proto/tx/message

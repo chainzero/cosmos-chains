@@ -1,0 +1,12 @@
+syntax = "proto3";
+package apitracking.apitracking;
+
+option go_package = "apitracking/x/apitracking/types";
+
+message Apirequest {
+  uint64 id = 1;
+  string requestor = 2; 
+  string uri = 3; 
+  string datetime = 4; 
+  string creator = 5;
+}
