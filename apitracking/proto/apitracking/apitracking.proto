@@ -1,0 +1,12 @@
+syntax = "proto3";
+package apitracking.apitracking;
+
+option go_package = "apitracking/x/apitracking/types";
+
+message Apitracking {
+  uint64 id = 1;
+  string uri = 2; 
+  string datetime = 3; 
+  string state = 4; 
+  
+}
