@@ -15,7 +15,9 @@ ignite scaffold module apitracking
 ignite scaffold list apitracking uri datetime state --no-message
 ```
 
-
+```
+ignite scaffold message  amount fee collateral deadline
+```
 
 ## Get started
 
